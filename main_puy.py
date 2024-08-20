@@ -39,7 +39,6 @@ import smoothing_spline
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
-import pandas as pd
 from scipy.interpolate import splev
 
 plt.close('all') # close all previous figures upon running script
@@ -164,12 +163,12 @@ plt.xlabel('x'); plt.ylabel('$d^2y / dx^2 $')
 
 ###### Load x and y data ######################################################
 # Define variables for the data points
-sim_name = 'sample_data/simulator_results_nonlinear50.xlsx' 
+sim_name = 'sample_data/simulator_results_nonlinear50.csv' 
 noise_amp = 0.0001 # Amplitude of the random noise added 
 seed_no = 0        # Change for other realisations of random numbers
 
 # Load data
-data = np.array(pd.read_excel(sim_name))
+data = np.genfromtxt(sim_name, delimiter=',', skip_header=True)
 x_sim = data[:,0] # Simulated deflection curve
 y_sim = data[:,1] # Simulated deflection curve
 curvature_comp = data[:,2] # True curvature (ground truth)
