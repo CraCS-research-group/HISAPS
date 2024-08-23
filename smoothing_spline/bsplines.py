@@ -32,8 +32,8 @@ References
 
 """
 
-import numpy as np
 import smoothing_spline
+import numpy as np
 
 def knots(x, p, thin=False, segments = 0):
     """

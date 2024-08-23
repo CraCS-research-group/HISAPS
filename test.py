@@ -1,7 +1,6 @@
 import smoothing_spline
 import pickle
 import numpy as np
-from smoothing_spline.bsplines import*
 import unittest
 
 class TestSum(unittest.TestCase):
@@ -106,11 +105,10 @@ class TestSum(unittest.TestCase):
         
         # Compute the smoothing parameter with the automatic method
         p = 2*par['m']-1 # Spline degree
-        t = knots(list(x),p, 0, 0) # Change to numpy array at a point
+        t = smoothing_spline.bsplines.knots(list(x),p, 0, 0) # Change to numpy array at a point
     
         #### Create b-matrix ####
         B = smoothing_spline.curvefit.b_matrix(x, t, p)
-        Bt = np.transpose(B)
     
         #### Calculate Omega matrix ####
         omega_jk = smoothing_spline.curvefit.omega(t, par['m'])
@@ -126,12 +124,14 @@ class TestSum(unittest.TestCase):
         ## Test if the program correctly computes the B-spline values in the B-matrix
         x = [0, 1, 2, 3]
         p = 2
-        t = smoothing_spline.curvefit.knots(x, 2)
+        t = smoothing_spline.bsplines.knots(x, 2)
         
         test_B = np.array([[1,0,0,0,0], [0,0.5,0.5,0,0], [0,0,0.5,0.5,0], [0,0,0,0,1]])
         
-        assert (test_B == smoothing_spline.curvefit.b_matrix(np.array(x), t, p)).all()
-        
+        # Assert result
+        tol= 1e-8
+    
+        assert np.allclose(test_B, smoothing_spline.curvefit.b_matrix(np.array(x), t, p), atol=tol) # knots
     
 if __name__ == '__main__':
     unittest.main()

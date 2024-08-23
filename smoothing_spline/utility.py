@@ -222,7 +222,7 @@ def subplot_filler(axes, plot_par, results_dir = ''):
                 axf[j].set_xlabel(newlist[i]['xlabel'])
                 axf[j].set_ylabel(newlist[i]['ylabel'])
         
-def error(x, y, xa, ya, n):
+def error_vals(x, y, xa, ya, n):
     """
     Function for calculating the errors between two data sets. 
 

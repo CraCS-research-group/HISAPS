@@ -48,7 +48,6 @@ import matplotlib.pyplot as plt
 import scipy.sparse as sp
 import scipy.sparse.linalg as la
 from scipy.optimize import minimize_scalar
-from smoothing_spline.bsplines import*
 
 from scipy.sparse import identity
 from scipy.sparse.linalg import MatrixRankWarning  # The custom warning class
@@ -78,9 +77,9 @@ def b_matrix(x, t, p):
     """
     B = np.zeros([x.size, len(t)-p-1])
     for i in range(x.size): 
-        span = find_span(x[i], p, t)
+        span = smoothing_spline.bsplines.find_span(x[i], p, t)
         for j in range(span-p,span+1):
-            B[i,j] = basis_fun(p, t, j, x[i], 0)
+            B[i,j] = smoothing_spline.bsplines.basis_fun(p, t, j, x[i], 0)
     return B
 
 def omega(t, m):
@@ -130,7 +129,7 @@ def omega(t, m):
     
     for i in range(Bdd.shape[0]): # Make this banded at some point
         for j in range(Bdd.shape[1]):
-            Bdd[i,j] = basis_fun((2*m-1), t, j, x_tilde[i], m)
+            Bdd[i,j] = smoothing_spline.bsplines.basis_fun((2*m-1), t, j, x_tilde[i], m)
     omega = np.transpose(Bdd) @ np.diag(wts) @ Bdd
     return omega
 
@@ -164,10 +163,10 @@ def add_constraints(M, b, t, p, constraints):
     R = sp.lil_matrix((len(constraints), M.shape[0]))
     c = np.zeros(len(constraints))
     for i in range(len(constraints)):
-        span = find_span(constraints[i]['x'], p, t)
+        span = smoothing_spline.bsplines.find_span(constraints[i]['x'], p, t)
         # Calculate R matrix
         for j in range(span-p,span+1):
-            R[i,j] = basis_fun(p,t,j,constraints[i]['x'], constraints[i]['der'])
+            R[i,j] = smoothing_spline.bsplines.basis_fun(p,t,j,constraints[i]['x'], constraints[i]['der'])
         # Calculate c matrix 
         c[i] = constraints[i]['f(x)']
     
@@ -407,7 +406,7 @@ def spline_fit(x, y, par):
     
     m = par['m']
     p = 2*m-1 # Spline degree
-    t = knots(list(x),p, thin, segments) # Change to numpy array at a point
+    t = smoothing_spline.bsplines.knots(list(x),p, thin, segments) # Change to numpy array at a point
     
     ######## Compute B and Omega matrices #############
     # Create b-matrix 
@@ -472,7 +471,7 @@ def spline_fit(x, y, par):
         # Compute relevant derivatives
         y_values = []
         for idx in range(len(ineq_con)):
-            y_values.append(np.array([spline_calc(a, spf, der=ineq_con[idx]['der']) for a in x]))
+            y_values.append(np.array([smoothing_spline.bsplines.spline_calc(a, spf, der=ineq_con[idx]['der']) for a in x]))
 
         ########## Check if constraints are satisfied #############
         indices_above_treshold = []
@@ -510,7 +509,7 @@ def spline_fit(x, y, par):
         fig,axes = smoothing_spline.utility.subplot_creator('Curvefit',2,3)
         
         x_sp = np.linspace(0 , np.max(x), 100)
-        y_sp = np.array([spline_calc(a, spf) for a in x_sp]) 
+        y_sp = np.array([smoothing_spline.bsplines.spline_calc(a, spf) for a in x_sp]) 
      
         plot_par.append( {"Title": 'Fabric deflection (Post erosion)',         \
                           "Order": 0, "Type": 'scatter', "Data": (x,y),        \
@@ -523,19 +522,19 @@ def spline_fit(x, y, par):
                           "Data": (x_sp,y_sp)} )
     
         # Spline derivatives. Plots to used to check if constraints are satisfid
-        y_spd = np.array([spline_calc(a, spf, der=1) for a in x_sp]) 
+        y_spd = np.array([smoothing_spline.bsplines.spline_calc(a, spf, der=1) for a in x_sp]) 
         plot_par.append( {"Title": 'Spline derivative', "Order": 2,            \
                           "Type": 'xy', "Data": (x_sp,y_spd)} )
     
-        y_spc   = np.array([spline_calc(a, spf, der = 2) for a in x_sp]) 
+        y_spc   = np.array([smoothing_spline.bsplines.spline_calc(a, spf, der = 2) for a in x_sp]) 
         plot_par.append( {"Title": 'Spline curvature' , "Order": 3,            \
                           "Type": 'xy', "Data": (x_sp,y_spc)} )
     
-        y_spcc   = np.array([spline_calc(a, spf, der = 3) for a in x_sp]) 
+        y_spcc   = np.array([smoothing_spline.bsplines.spline_calc(a, spf, der = 3) for a in x_sp]) 
         plot_par.append( {"Title": 'Spline 3rd derivative' , "Order": 4,       \
                           "Type": 'xy', "Data": (x_sp,y_spcc)} )
         
-        y_spccc   = np.array([spline_calc(a, spf, der = 4) for a in x_sp]) 
+        y_spccc   = np.array([smoothing_spline.bsplines.spline_calc(a, spf, der = 4) for a in x_sp]) 
         plot_par.append( {"Title": 'Spline 4th derivative' , "Order": 5,       \
                           "Type": 'xy', "Data": (x_sp,y_spccc)} )
         
