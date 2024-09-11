@@ -136,6 +136,7 @@ plt.plot(xp,yp_real, 'k--', label = 'Signal', alpha =.5)
 plt.scatter(x, y, s = 7, color = 'r', label = 'Data points')
 plt.legend()
 plt.xlabel('x'); plt.ylabel('y')
+#Added
 plt.show()
 
 # Plot of first derivative
