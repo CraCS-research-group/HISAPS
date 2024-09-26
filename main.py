@@ -6,7 +6,13 @@ perform curve fitting with smoothing splines on xy-data sets.
 The spline fitting is carried out with the spline_fit function in the curvefit
 module. 
 
-[Mention the paper here]
+The software and the examples presented in this script are described in the
+following paper. Please cite this if you are using the software in your 
+research:
+    P.H. Broberg, E. Lindgaard, A.M. Olesen, S.M. Jensen, N.K.K. Stagsted,
+    R.L. Bjerg, R. Grosselle, I. Urcelay Oca, B.L.V. Bak. HISAPS: High-Order 
+    Smoothing Spline with Automatic Parameter Selection and Shape Constraints. 
+    In review
 
 Parameters that need to be specified for the spline_fit:
     ----------------------------------
@@ -32,7 +38,7 @@ Parameters that need to be specified for the spline_fit:
 Oca, Niklas Stagsted, Riccardo Groselle, Rasmus Bjerg, Brian Bak
 CraCS Research Group, Aalborg University
 
-date: August 2024
+date: September 2024
 """
 
 import smoothing_spline
@@ -106,7 +112,6 @@ plt.plot(xp,yp_real, 'k--', label = 'Signal', alpha =.5)
 plt.scatter(x, y, s = 7, color = 'r', label = 'Data points')
 plt.legend()
 plt.xlabel('x'); plt.ylabel('y')
-#Added
 plt.show()
 
 # Plot of first derivative
