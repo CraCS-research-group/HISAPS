@@ -136,6 +136,8 @@ plt.plot(xp,yp_real, 'k--', label = 'Signal', alpha =.5)
 plt.scatter(x, y, s = 7, color = 'r', label = 'Data points')
 plt.legend()
 plt.xlabel('x'); plt.ylabel('y')
+#Added
+plt.show()
 
 # Plot of first derivative
 yp1_real = sine_signal(xp, amplitude, phase_shift, der=1)
@@ -146,6 +148,7 @@ plt.plot(xp,yp1, label = 'Spline Fit')
 plt.plot(xp,yp1_real, 'k--', label = 'Signal', alpha =.5)
 plt.legend()
 plt.xlabel('x'); plt.ylabel('$dy / dx $')
+plt.show()
 
 # Plot of second derivative
 yp2_real = sine_signal(xp, amplitude, phase_shift, der=2)
@@ -156,6 +159,7 @@ plt.plot(xp,yp2, label = 'Spline fit - unconstrained')
 plt.plot(xp,yp2_real, 'k--', label = 'Signal', alpha =.5)
 plt.legend()
 plt.xlabel('x'); plt.ylabel('$d^2y / dx^2 $')
+plt.show()
 
 ###############################################################################
 ###################### Cantilever bending test example ########################
@@ -225,6 +229,7 @@ plt.plot(x_sp, y_sp3,'-', label = 'm=3')
 plt.plot(x_sp, y_sp4,'-', label = 'm=4')
 plt.xlabel('x [m]'); plt.ylabel('y [m]')
 plt.legend()
+plt.show()
 
 # Compare curvature
 plt.figure()
@@ -234,6 +239,7 @@ plt.plot(x_sp, -curvature_3,'-', label = 'm=3')
 plt.plot(x_sp, -curvature_4,'-', label = 'm=4')
 plt.xlabel('x [m]'); plt.ylabel('curvature [1/m]')
 plt.legend()
+plt.show()
 
 
 
