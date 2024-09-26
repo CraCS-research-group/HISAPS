@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
 """
 ############################################################################
-#  This Python file is part of bendstiff for calculating the moment-       #
-#  curvature relation for textile materials.                               #
+#  This Python file is part of HISAPS for fitting smoothing splines with   #
+#  penalties on high order derivatives                                     #
 #                                                                          #
 #  The code was developed at Department of Materials and Production at     #
-#  Aalborg University by  P.H. Broberg, E. Lindgaard, C. Krogh,            #
-#  S.M. Jensen, G.G. Trabal, A.F.-M Thai, B.L.V. Bak                       #
+#  Aalborg University by  P.H. Broberg, E. Lindgaard, A.M. Olesen,         #
+#  S.M. Jensen, N.K.K. Stagsted, R.L. Bjerg, R. Grosselle, I. Urcelay Oca, # 
+#  B.L.V. Bak                                                              #
 #                                                                          #
 #  A github repository, with the most up to date version of the code,      #
 #  can be found here:                                                      #
-#     https://github.com/phbroberg/bendstiff                               #
+#     https://github.com/CraCS-research-group/HISAPS                       #
 #                                                                          #
 #  The code is open source and intended for educational and scientific     #
-#  purposes only. If you use this script in your research, the developers  #
-#  would be grateful if you could cite the paper.                          #
+#  purposes. If you use this script in your research, the developers would #
+#  be grateful if you could cite the paper.                                #
 #                                                                          #
 #  Disclaimer:                                                             #
 #  The authors reserve all rights but do not guarantee that the code is    #
@@ -58,7 +59,7 @@ plot_par = [] # Initialize plot parameters list for plotting
 
 def b_matrix(x, t, p):
     """
-    Function for calculating the B-matrix. 
+    Function for computing the B-matrix. 
 
     Parameters
     ----------
@@ -84,7 +85,7 @@ def b_matrix(x, t, p):
 
 def omega(t, m):
     """
-    Function for calculating the omega-matrix. 
+    Function for computing the omega-matrix. 
     The numerical integration is based on [2].
     
     Parameters
