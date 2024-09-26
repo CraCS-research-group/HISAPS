@@ -26,6 +26,7 @@ Module containing utility functions used throughout the software.
 
 """
 
+import smoothing_spline
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
@@ -332,3 +333,33 @@ def load_par(test_name):
     par = pickle.load(par_file)
     par_file.close()
     return par
+
+###############################################################################
+################### Auxillary functions used in examples ######################
+###############################################################################
+
+def sine_signal(x, amplitude, phase_shift, der=0): 
+    # Computation of a sine signal
+    if der == 0:
+        return amplitude*np.sin(x + phase_shift) 
+    elif der == 1:
+        return amplitude*np.cos(x + phase_shift) 
+    elif der == 2:
+        return -amplitude*np.sin(x + phase_shift) 
+
+def noise_generator(y, noise_amp, seed_no):
+    # Adding normally distributed noise to vector y
+    np.random.seed(seed_no) # For recreating results
+    noise = np.random.normal(size = y.size)
+    y_noise = y + noise_amp*noise
+    return y_noise
+
+def compute_curvature(x_sp, spf):
+    # Calculate spline curvature
+    sec_der = np.array([smoothing_spline.bsplines.spline_calc(a, spf, der = 2) for a  \
+                        in x_sp]) 
+    fir_der = np.array([smoothing_spline.bsplines.spline_calc(a, spf, der = 1) for a  \
+                        in x_sp]) 
+    curvature = - sec_der / np.power((1+fir_der**2), 1.5)
+    return curvature
+

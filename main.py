@@ -38,39 +38,9 @@ date: August 2024
 import smoothing_spline
 import matplotlib.pyplot as plt
 import numpy as np
-import pickle
 from scipy.interpolate import splev
 
 plt.close('all') # close all previous figures upon running script
-
-###############################################################################
-################### Auxillary functions used in examples ######################
-###############################################################################
-
-def sine_signal(x, amplitude, phase_shift, der=0): 
-    # Computation of a sine signal
-    if der == 0:
-        return amplitude*np.sin(x + phase_shift) 
-    elif der == 1:
-        return amplitude*np.cos(x + phase_shift) 
-    elif der == 2:
-        return -amplitude*np.sin(x + phase_shift) 
-
-def noise_generator(y, noise_amp, seed_no):
-    # Adding normally distributed noise to vector y
-    np.random.seed(seed_no) # For recreating results
-    noise = np.random.normal(size = y.size)
-    y_noise = y + noise_amp*noise
-    return y_noise
-
-def compute_curvature(x_sp, spf):
-    # Calculate spline curvature
-    sec_der = np.array([smoothing_spline.bsplines.spline_calc(a, spf, der = 2) for a  \
-                        in x_sp]) 
-    fir_der = np.array([smoothing_spline.bsplines.spline_calc(a, spf, der = 1) for a  \
-                        in x_sp]) 
-    curvature = - sec_der / np.power((1+fir_der**2), 1.5)
-    return curvature
 
 
 ###############################################################################
@@ -90,8 +60,8 @@ random_seed = 0        # Change for other realisations of random numbers
 
 # Generate the data points
 x = np.linspace(0, x_max, n_data_points)
-y_sine = sine_signal(x, amplitude, phase_shift)
-y = noise_generator(y_sine, noise_amplitude, random_seed)
+y_sine = smoothing_spline.utility.sine_signal(x, amplitude, phase_shift)
+y = smoothing_spline.utility.noise_generator(y_sine, noise_amplitude, random_seed)
 
 ###### Smoothing spline settings ##############################################
 m = 4 # Order of the smoothing spline.
@@ -127,7 +97,7 @@ spf = smoothing_spline.curvefit.spline_fit(x, y, par)
 
 ###### Plot the fit and data points ###########################################
 xp = np.linspace(0,np.max(x),500)
-yp_real = sine_signal(xp, amplitude, phase_shift)
+yp_real = smoothing_spline.utility.sine_signal(xp, amplitude, phase_shift)
 yp = np.array([smoothing_spline.bsplines.spline_calc(a, spf) for a in xp]) 
 
 plt.figure(figsize=(6.4,2.4))
@@ -140,7 +110,7 @@ plt.xlabel('x'); plt.ylabel('y')
 plt.show()
 
 # Plot of first derivative
-yp1_real = sine_signal(xp, amplitude, phase_shift, der=1)
+yp1_real = smoothing_spline.utility.sine_signal(xp, amplitude, phase_shift, der=1)
 yp1 = np.array([smoothing_spline.bsplines.spline_calc(a, spf, der = 1) for a in xp]) 
 
 plt.figure(figsize=(6.4,2.4))
@@ -151,7 +121,7 @@ plt.xlabel('x'); plt.ylabel('$dy / dx $')
 plt.show()
 
 # Plot of second derivative
-yp2_real = sine_signal(xp, amplitude, phase_shift, der=2)
+yp2_real =smoothing_spline.utility.sine_signal(xp, amplitude, phase_shift, der=2)
 yp2 = np.array([smoothing_spline.bsplines.spline_calc(a, spf, der = 2) for a in xp]) 
 
 plt.figure(figsize=(6.4,2.4))
@@ -179,7 +149,7 @@ curvature_comp = data[:,2] # True curvature (ground truth)
 
 # Add noise to data 
 x = x_sim
-y = noise_generator(y_sim, noise_amp, seed_no)
+y = smoothing_spline.utility.noise_generator(y_sim, noise_amp, seed_no)
 
 ###### Smoothing spline settings ##############################################
 m = 2 # Order of the smoothing spline.
@@ -213,13 +183,13 @@ spf_4 = smoothing_spline.curvefit.spline_fit(x, y, par)
 x_sp = np.linspace(0 , np.max(x), 100)
 
 y_sp2 = splev(x_sp, spf_2)
-curvature_2 = compute_curvature(x_sp, spf_2)
+curvature_2 = smoothing_spline.utility.compute_curvature(x_sp, spf_2)
 
 y_sp3 = splev(x_sp, spf_3)
-curvature_3 = compute_curvature(x_sp, spf_3)
+curvature_3 = smoothing_spline.utility.compute_curvature(x_sp, spf_3)
 
 y_sp4 = splev(x_sp, spf_4)
-curvature_4 = compute_curvature(x_sp, spf_4)
+curvature_4 = smoothing_spline.utility.compute_curvature(x_sp, spf_4)
 
 plt.figure()
 plt.plot(x_sim, y_sim, 'k--', label = 'Real deflection curve')
