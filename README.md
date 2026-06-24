@@ -9,7 +9,7 @@ a fit with smooth derivatives. The software offers the following features:
 - Ability of adding equality and inequality constraints to control the fit. 
 
 The development of HISAPS is primarily funded through research grants. To support our development efforts, please cite the following papers when using the code for research:
-- P.H. Broberg, E. Lindgaard, A.M. Olesen, S.M. Jensen, N.K.K. Stagsted, R.L. Bjerg, R. Grosselle, I. Urcelay Oca, B.L.V. Bak. HISAPS: High-Order Smoothing Spline with Automatic Parameter Selection and Shape Constraints. In review
+- P.H. Broberg, E. Lindgaard, A.M. Olesen, S.M. Jensen, N.K.K. Stagsted, R.L. Bjerg, R. Grosselle, I. Urcelay Oca, B.L.V. Bak. HISAPS: High-Order Smoothing Spline with Automatic Parameter Selection and Shape Constraints. SoftwareX 29, 102049 (2025) doi: https://doi.org/10.1016/j.softx.2025.102049
 - P.H. Broberg, E. Lindgaard, C. Krogh, S.M. Jensen, G.G. Trabal, A.F.-M. Thai, B.L.V. Bak. One-click bending stiffness: Robust and reliable automatic calculation of moment-curvature relation in a cantilever bending test. Composites Part B: Engineering 260, 110763 (2023) doi:https://doi.org/10.1016/j.compositesb.2023.110763.
 
 The code was developed at Department of Materials and Production at Aalborg University by  P.H. Broberg, E. Lindgaard, C. Krogh, S.M. Jensen, G.G. Trabal, A.F.-M Thai, A.M. Olesen, N.K.K. Stagsted, R.L. Bjerg, R. Grosselle, I. Urcelay Oca, and B.L.V. Bak. Please feel free to use and adapt the code but remember to give proper attribution.
